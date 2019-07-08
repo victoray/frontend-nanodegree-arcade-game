@@ -55,6 +55,8 @@ class Player {
         this.sprite = 'images/char-boy.png';
         this.x = x;
         this.y = y;
+        this.level = 1;
+        this.score = 0;
         this.allEnemies = allEnemies;
         this.speed = 30;
 
@@ -63,6 +65,7 @@ class Player {
     update(key) {
         this.checkCollisions();
         if (this.y <= 0){
+            this.levelUp();
             this.x = 220;
             this.y = 430;
         }
@@ -77,7 +80,7 @@ class Player {
                 if (this.x - this.speed > 0) this.x -= this.speed;
                 break;
             case 'right':
-                if (this.x + this.speed < 450) this.x += this.speed;
+                if (this.x + this.speed < 420) this.x += this.speed;
                 break;
         }
 
@@ -99,25 +102,25 @@ class Player {
 
         for (const enemy of this.allEnemies){
             let enemyPos = enemy.getCurrentPosition();
-            console.log(enemyPos[0], this.x);
-            console.log(enemyPos[1], this.y);
             const test = enemyPos[0] + 30 > this.x && enemyPos[0] - 30 < this.x;
             const test2 = enemyPos[1] + 30 > this.y && enemyPos[1] - 30 < this.y;
-            //debugger
-            console.log(test2);
 
             if (test2 && test){
-                console.log('clash');
                 this.x = 220;
                 this.y = 430;
             }
         }
     }
-}
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+    levelUp(){
+        this.allEnemies.add(new Enemy(Math.random() * 100, 145, Math.random() * 500));
+    }
+
+    reset(){
+
+    }
+
+}
 
 
 const enemy4 = new Enemy(0, 60, 500);
